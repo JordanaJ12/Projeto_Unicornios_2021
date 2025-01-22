@@ -109,3 +109,50 @@ plt.pie(
 
 );
 
+#%%
+#Conversão para data:
+Base_dados['Data de Adesão'] = pd.to_datetime(Base_dados['Data de Adesão'])
+
+Base_dados['Data de Adesão'].head()
+
+#%%
+#Extrair o mês e ano:
+Base_dados['Mes'] = pd.DatetimeIndex(Base_dados['Data de Adesão']).month
+Base_dados['Ano'] = pd.DatetimeIndex(Base_dados['Data de Adesão']).year
+
+Base_dados.head()
+
+#%%
+
+#Agrupar as informações pelo pais, ano e mês selecionando apenas a coluna Id:
+Base_dados.groupby(by = ['Pais', 'Ano', 'Mes', 'Empresa']).count()['Id']
+
+#Transformando em uma tabela Análitica:
+Analise_Agrupada = Base_dados.groupby(by = ['Pais', 'Ano', 'Mes', 'Empresa']).count()['Id'].reset_index()
+
+Analise_Agrupada
+
+#%%
+#Localizar apenas os dados do Brasil:
+
+Analise_Agrupada.loc[
+    Analise_Agrupada['Pais'] == 'Brazil'
+]
+
+#Retirar $ dos valores e converter para número flutuante:
+#apply é usado junto com lambda para realizar algum cálculo dentro de uma coluna ou linha de um dataframe(usado no pandas):
+
+Base_dados['Valor ($)'] = pd.to_numeric( Base_dados['Valor ($)'].apply( lambda Linha: Linha.replace('$', '') ) )
+Base_dados.head()
+
+
+#%%
+# Agrupar o Paises com maiores valores(maior para o menor)
+Analise_Pais = Base_dados.groupby(by = ['Pais']).sum(numeric_only=True)['Valor ($)'].reset_index().sort_values('Valor ($)',ascending=False)
+Analise_Pais.head(10)
+
+#Colocando em um gráfico de linha:
+plt.figure(figsize=(15,6))
+plt.title('Análise do valor do pais')
+plt.plot(Analise_Pais['Pais'], Analise_Pais['Valor ($)'])
+plt.xticks(rotation= 45, ha='right');
