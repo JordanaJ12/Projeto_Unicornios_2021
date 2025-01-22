@@ -55,3 +55,23 @@ plt.figure(figsize=(15,6))
 plt.title('Analisando Campos Nulos')
 sns.heatmap(Base_dados.isnull(), cbar=False);#; tira a legenda da figura em cima do gráfico
 
+#%%
+#Campos unicos:
+Base_dados.nunique()
+
+#Valores unicos em 'setor':
+Base_dados['Setor'].nunique();
+
+#Valores Unicos - Rank
+Base_dados['Setor'].value_counts()
+
+#Valores Unicos - Rank em porcentagem:
+Base_dados['Setor'].value_counts(normalize= True)
+
+#%%
+#Fazendo um gráfico de barra:
+plt.figure( figsize=(15,6) )
+plt.title('Análise dos Setores')
+plt.bar(Base_dados['Setor'].value_counts().index, Base_dados['Setor'].value_counts())
+plt.xticks(rotation=45, ha='right');#rotaciona a legenda X em 45 graus para a direita
+
