@@ -75,3 +75,37 @@ plt.title('Análise dos Setores')
 plt.bar(Base_dados['Setor'].value_counts().index, Base_dados['Setor'].value_counts())
 plt.xticks(rotation=45, ha='right');#rotaciona a legenda X em 45 graus para a direita
 
+#%%
+# Transforma a porcentagem em casas decimais e reduz para uma casa após a virgula
+Analise = round( Base_dados['Pais'].value_counts( normalize=True ) * 100, 1 )
+
+Analise
+
+#%%
+#Gráfico de pizza dos paises:
+plt.figure(figsize=(15,6))
+plt.title('Análise de Países Geradores de Unicórnios')
+plt.pie(
+    Analise,
+    labels= Analise.index,
+    shadow= True,
+    startangle= 90,
+    autopct= '%1.1f%%'
+
+);
+
+#%%
+#Fazendo uma limpeza no gráfico de pizza:
+#Apenas os 4 paises mais geradores de unicornios:
+#Gráfico de pizza dos paises:
+plt.figure(figsize=(15,6))
+plt.title('Análise de Países Geradores de Unicórnios')
+plt.pie(
+    Analise.head(4),
+    labels= Analise.index[0:4],
+    shadow= True,
+    startangle= 90,
+    autopct= '%1.1f%%'
+
+);
+
